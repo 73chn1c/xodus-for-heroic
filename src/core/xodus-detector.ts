@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { ExecutableResolver, ExecutableCandidate } from './executable-resolver';
+import * as os from 'os';
+import { ExecutableResolver } from './executable-resolver';
 
 export interface GdkGameMetadata {
   titleId?: string;
@@ -39,7 +40,7 @@ export class XodusDetector {
         rawConfig = fs.readFileSync(configPath, 'utf8');
 
         // Extract TitleId
-        const titleMatch = rawConfig.match(/<TitleId>([a-fA-F0-9]+)<\/TitleId>/i);
+        const titleMatch = rawConfig.match(/<TitleId>([a-fA-F0-9]+)<\/TitleId>/i) || rawConfig.match(/TitleId="([a-fA-F0-9]+)"/i);
         if (titleMatch) titleId = titleMatch[1];
 
         // Extract DisplayName
@@ -54,7 +55,7 @@ export class XodusDetector {
         const idMatch = rawConfig.match(/<Identity\s+Name="([^"]+)"/i);
         if (idMatch) packageFamilyName = idMatch[1];
 
-        const verMatch = rawConfig.match(/Version="([^"]+)"/i);
+        const verMatch = rawConfig.match(/<Identity[^>]*\bVersion="([^"]+)"/i) || rawConfig.match(/\bVersion="([^"]+)"/i);
         if (verMatch) version = verMatch[1];
 
         // Extract visual elements / icons
@@ -70,7 +71,6 @@ export class XodusDetector {
       }
     }
 
-    // Always run the smart heuristic resolver to check if there is a real game binary vs launcher
     const resolved = ExecutableResolver.resolveMainExecutable(gameDir);
     let finalExe: string;
     let finalExePath: string;
@@ -106,7 +106,7 @@ export class XodusDetector {
    * Scans common install directories for Game Pass / XODUS installed games.
    */
   public static scanStandardDirectories(customRoots: string[] = []): GdkGameMetadata[] {
-    const home = process.env.HOME || '/home/technic';
+    const home = os.homedir();
     const candidateRoots = [
       path.join(home, 'Games', 'Heroic'),
       path.join(home, 'Games', 'Xbox'),

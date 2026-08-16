@@ -1,22 +1,29 @@
-# Xbox Game Pass on Linux - Compatibility Matrix
+# Xbox Game Pass on Linux - Compatibility & Verification
 
 <p align="center">
   <a href="GAME_COMPATIBILITY.md"><b>English</b></a> •
   <a href="GAME_COMPATIBILITY.pl.md"><b>Polski</b></a>
 </p>
 
-| Game | Status | Runner | Audio / Dialogues | Disk Save Engine | Notes & Tweaks |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Fallout 4 (Game Pass)** | 🟢 100% Working | Proton-XODUS-GDK | ✅ GStreamer + Voices alias | ✅ `XGameSave` to `My Games\Fallout4 MS\Saves` | Launcher bypass (`Fallout4.exe`), `.ba2` voice alias |
-| **Fallout 3 (Game Pass)** | 🟢 100% Working | Proton-XODUS-GDK | ✅ Native DirectSound | ✅ Enabled | Clean exit code 0 |
-| **Moving Out** | 🟢 100% Working | Proton-XODUS-GDK | ✅ Unity Audio | ✅ Enabled | Default multiplayer UDP port 3074 |
-| **Overcooked! 2** | 🟢 100% Working | Proton-XODUS-GDK | ✅ Unity Audio | ✅ Enabled | Wine / SDL controller support |
-| **RollerCoaster Tycoon 3**| 🟢 100% Working | Proton-XODUS-GDK | ✅ DirectSound | ✅ Enabled | Direct3D 9 -> Vulkan (DXVK) |
-| **Lies of P / Forza Horizon** | 🟢 Compatible | Proton-XODUS-GDK | ✅ XAudio2 | ✅ Enabled | `XDisplayTryEnableHdrMode` (Graceful disabled fallback) |
+This document details how Xbox Game Pass (GDK / MSIXVC) titles run on Linux using the Proton-XODUS-GDK runner and the bridge.
+
+## Architecture Highlights
+
+1. **GDK Subsystem Emulation (`xgameruntime.dll`)**:
+   - `XGameSave`: Persistent blob storage mapped to user document directories.
+   - `XUser`: SISU authentication and UTF-16 token exchange.
+   - `XGameUi` / `XStore`: Non-blocking asynchronous licensing and UI dialog fallbacks.
+   - `XNetworking`: Automatic multiplayer UDP port binding (3074).
+
+2. **Audio & Media Pipeline**:
+   - Native XAudio2 / X3DAudio DirectX libraries for low-latency spatial sound.
+   - GStreamer (`plugins-bad`, `plugins-ugly`, `libav`) for in-game video and WMA/XWMA speech decoding.
 
 ---
 
-## Recommended Environment Flags (Automated in `xodus-heroic`)
+## Recommended Environment Flags
+
+The bridge automatically configures these flags for every detected title:
 
 ```bash
 export WINEDLLOVERRIDES="winegstreamer=d;xaudio2_7=n,b;x3daudio1_7=n,b;xgameruntime=n,b"

@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as os from 'os';
 
 export interface AudioFixResult {
   voiceArchiveLinked: boolean;
@@ -19,32 +20,35 @@ export class AudioCodecFixer {
     let xactDllsDeployed = false;
 
     if (!fs.existsSync(gameDir)) {
-      return { voiceArchiveLinked, subtitlesEnabled, xactDllsDeployed, warnings: ['Katalog gry nie istnieje'] };
+      return { voiceArchiveLinked, subtitlesEnabled, xactDllsDeployed, warnings: ['Target directory does not exist'] };
     }
 
     const dataDir = path.join(gameDir, 'Data');
     if (fs.existsSync(dataDir)) {
-      // Fix Polish/Custom voice archive alias (Fallout 4 / Creation Engine pattern)
-      const voicePl = path.join(dataDir, 'Fallout4 - Voices_pl.ba2');
-      const voiceEn = path.join(dataDir, 'Fallout4 - Voices.ba2');
-
-      if (fs.existsSync(voicePl) && !fs.existsSync(voiceEn)) {
-        try {
-          fs.linkSync(voicePl, voiceEn);
-          voiceArchiveLinked = true;
-        } catch {
-          try {
-            fs.copyFileSync(voicePl, voiceEn);
-            voiceArchiveLinked = true;
-          } catch (e: any) {
-            warnings.push(`Nie udało się utworzyć powiązania Voices: ${e.message}`);
+      try {
+        const files = fs.readdirSync(dataDir);
+        for (const file of files) {
+          const match = file.match(/^(.+)\s*-\s*Voices_[a-zA-Z]{2}\.ba2$/i);
+          if (match) {
+            const baseVoiceArchive = path.join(dataDir, `${match[1]} - Voices.ba2`);
+            const localizedArchive = path.join(dataDir, file);
+            if (!fs.existsSync(baseVoiceArchive)) {
+              try {
+                fs.linkSync(localizedArchive, baseVoiceArchive);
+                voiceArchiveLinked = true;
+              } catch {
+                fs.copyFileSync(localizedArchive, baseVoiceArchive);
+                voiceArchiveLinked = true;
+              }
+            }
           }
         }
+      } catch (e: any) {
+        warnings.push(`Could not process voice archives: ${e.message}`);
       }
     }
 
-    // Deploy native XACT / XAudio2 DLLs if available
-    const home = process.env.HOME || '/home/technic';
+    const home = os.homedir();
     const wineSys32 = path.join(home, '.wine', 'drive_c', 'windows', 'system32');
     const xaudioSrc = path.join(wineSys32, 'xaudio2_7.dll');
     const x3daudioSrc = path.join(wineSys32, 'x3daudio1_7.dll');
@@ -57,29 +61,7 @@ export class AudioCodecFixer {
         }
         xactDllsDeployed = true;
       } catch (e: any) {
-        warnings.push(`Nie udało się skopiować XAudio2 DLL do folderu gry: ${e.message}`);
-      }
-    }
-
-    // Configure subtitles in user INI documents
-    const docGamesDir = path.join(home, '.wine', 'drive_c', 'users', 'steamuser', 'Documents', 'My Games');
-    if (fs.existsSync(docGamesDir)) {
-      const candidates = [
-        path.join(docGamesDir, 'Fallout4 MS', 'Fallout4Custom.ini'),
-        path.join(docGamesDir, 'Fallout4', 'Fallout4Custom.ini')
-      ];
-
-      for (const iniPath of candidates) {
-        const iniDir = path.dirname(iniPath);
-        if (fs.existsSync(iniDir)) {
-          const iniContent = `[General]\nsLanguage=pl\n\n[Audio]\nbEnableAudio=1\n\n[Interface]\nbDialogueSubtitles=1\nbGeneralSubtitles=1\n`;
-          try {
-            fs.writeFileSync(iniPath, iniContent, 'utf8');
-            subtitlesEnabled = true;
-          } catch (e: any) {
-            warnings.push(`Nie udało się zaktualizować INI: ${e.message}`);
-          }
-        }
+        warnings.push(`Could not deploy XAudio2 DLLs: ${e.message}`);
       }
     }
 

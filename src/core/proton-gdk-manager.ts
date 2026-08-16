@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as os from 'os';
 
 export interface ProtonGdkStatus {
   isInstalled: boolean;
@@ -15,10 +16,10 @@ export class ProtonGdkManager {
    * Discovers and inspects the Proton XODUS GDK runner.
    */
   public static getRunnerStatus(): ProtonGdkStatus {
-    const home = process.env.HOME || '/home/technic';
+    const home = os.homedir();
     const candidateRunners = [
       path.join(home, '.config', 'heroic', 'tools', 'proton', 'Proton-XODUS-GDK'),
-      path.join(home, 'xodus-proton-build', 'proton', 'build', 'build-xodusbleeding-edge-local', 'dist'),
+      path.join(home, '.local', 'share', 'Steam', 'compatibilitytools.d', 'Proton-XODUS-GDK'),
       path.join(home, '.wine')
     ];
 
@@ -47,9 +48,9 @@ export class ProtonGdkManager {
     const wineSys32 = path.join(home, '.wine', 'drive_c', 'windows', 'system32');
     const hasXAudio2 = fs.existsSync(path.join(wineSys32, 'xaudio2_7.dll')) && fs.existsSync(path.join(wineSys32, 'x3daudio1_7.dll'));
 
-    // Verify system GStreamer plugins
     const hasGStreamerPlugins = fs.existsSync('/usr/lib/x86_64-linux-gnu/gstreamer-1.0/libgstlibav.so') ||
-                                fs.existsSync('/usr/lib/x86_64-linux-gnu/gstreamer-1.0/libgstbadvideo.so');
+                                fs.existsSync('/usr/lib/x86_64-linux-gnu/gstreamer-1.0/libgstbadvideo.so') ||
+                                fs.existsSync('/usr/lib/gstreamer-1.0/libgstlibav.so');
 
     return {
       isInstalled: !!runnerPath,

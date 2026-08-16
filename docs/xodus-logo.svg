@@ -1,0 +1,8 @@
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <!-- Placeholder store icon for the xodus (Xbox Game Pass) runner - a
+       plain generic game-controller glyph, not any trademarked logo. -->
+  <path
+    fill="currentColor"
+    d="M7 6h10a5 5 0 0 1 4.9 6l-1 5a2.5 2.5 0 0 1-4.4 1.4L15 16H9l-1.5 2.4A2.5 2.5 0 0 1 3.1 17l-1-5A5 5 0 0 1 7 6zm1 4v2H6v2h2v2h2v-2h2v-2H10v-2H8zm7.5 0.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm2.5 2.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"
+  />
+</svg>

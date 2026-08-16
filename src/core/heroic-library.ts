@@ -1,11 +1,12 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as os from 'os';
 import { GdkGameMetadata } from './xodus-detector';
 import { ProtonGdkManager } from './proton-gdk-manager';
 
 export class HeroicLibrary {
   private static getHeroicConfigDir(): string {
-    const home = process.env.HOME || '/home/technic';
+    const home = os.homedir();
     return path.join(home, '.config', 'heroic');
   }
 
@@ -35,7 +36,7 @@ export class HeroicLibrary {
         name: 'Proton - Proton-XODUS-GDK',
         type: 'proton'
       },
-      winePrefix: path.join(process.env.HOME || '/home/technic', '.wine'),
+      winePrefix: path.join(os.homedir(), '.wine'),
       targetExe: game.executableFullPath,
       launcherArgs: '',
       environmentOptions: Object.entries(env).map(([key, value]) => ({ key, value })),

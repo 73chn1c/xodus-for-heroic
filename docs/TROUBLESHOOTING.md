@@ -1,31 +1,25 @@
-# Troubleshooting & FAQ
+# Troubleshooting & Diagnostic Guide
 
 <p align="center">
   <a href="TROUBLESHOOTING.md"><b>English</b></a> •
   <a href="TROUBLESHOOTING.pl.md"><b>Polski</b></a>
 </p>
 
-### 1. Missing NPC Dialogue Voices (e.g. Fallout 4 Bathroom / Prologue)
-- **Cause**: Missing system WMA/XWMA GStreamer plugins or unlinked localized audio archives (`.ba2`).
-- **Solution**:
-  ```bash
-  xodus-heroic fix-audio ~/Games/Heroic/Fallout4
-  ```
+### 1. Environment Health Check
+Run the built-in diagnostic tool to verify all required libraries and codecs:
+```bash
+xodus-heroic doctor
+```
 
-### 2. Game Hangs on Exit to Desktop
-- **Cause**: Async thread deadlock or unhandled UTF-16 token request.
-- **Solution**: Ensure your Proton GDK runner uses the latest `xgameruntime.dll` (returning `S_OK` in `UninitializeApiImpl`).
+### 2. Audio & Dialogue Repair
+If a game exhibits missing voice audio or unlinked localized speech archives:
+```bash
+xodus-heroic fix-audio <path-to-game-directory>
+```
 
-### 3. Heroic Launches Splash Launcher Instead of the Game
-- **Cause**: `MicrosoftGame.config` declares a `*Launcher.exe` wrapper.
-- **Solution**:
-  ```bash
-  xodus-heroic sync
-  ```
-  `xodus-heroic` will automatically detect the real binary and update your Heroic config.
-
-### 4. Health Check (Doctor)
-- Run:
-  ```bash
-  xodus-heroic doctor
-  ```
+### 3. Executable Selection
+If Heroic is launching a splash screen or launcher instead of the main game executable:
+```bash
+xodus-heroic sync
+```
+The automated heuristic resolver will update the target executable to the main game binary.
