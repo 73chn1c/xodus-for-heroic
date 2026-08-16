@@ -1,79 +1,81 @@
 # 🎮 XODUS for Heroic
 
-[![GitHub License](https://img.shields.io/badge/license-GPL--3.0-blue.svg)](LICENSE)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6.svg?logo=typescript)](https://www.typescriptlang.org/)
-[![Linux Gaming](https://img.shields.io/badge/Platform-Linux-FCC624.svg?logo=linux&logoColor=black)](https://kernel.org)
-[![Heroic Games Launcher](https://img.shields.io/badge/Heroic-Compatible-yellow.svg)](https://heroicgameslauncher.com)
-[![Proton GDK](https://img.shields.io/badge/Proton-XODUS--GDK-purple.svg)](https://github.com/73chn1c/xgameruntime)
+<p align="center">
+  <a href="README.md"><b>English</b></a> •
+  <a href="README.pl.md"><b>Polski</b></a>
+</p>
 
-> **Kompleksowy, samodzielny most i menedżer integracji gier Xbox Game Pass (MSIXVC / Microsoft GDK) z Heroic Games Launcher na systemie Linux.**
+<p align="center">
+  <img src="https://img.shields.io/badge/license-GPL--3.0-blue.svg" alt="GPL-3.0 License" />
+  <img src="https://img.shields.io/badge/TypeScript-5.5-3178C6.svg?logo=typescript" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Platform-Linux-FCC624.svg?logo=linux&logoColor=black" alt="Linux Gaming" />
+  <img src="https://img.shields.io/badge/Heroic-Compatible-yellow.svg" alt="Heroic Compatible" />
+  <img src="https://img.shields.io/badge/Proton-XODUS--GDK-purple.svg" alt="Proton GDK" />
+</p>
 
----
-
-## ✨ Kluczowe Funkcjonalności
-
-- 🔄 **Automatyczna Synchronizacja Biblioteki (`xodus-heroic sync`)**: Skanuje pobrane i odszyfrowane przez silnik XODUS gry, parsuje manifesty `MicrosoftGame.config`, pobiera TitleId, metadane oraz ikony i generuje gotowe konfiguracje Heroica.
-- 🎯 **Inteligentny Wybór Plików Wykonywalnych (`ExecutableResolver`)**: Automatycznie ignoruje zbędne programy startowe (`*Launcher.exe`, `*Setup.exe`, `CrashReport.exe`) i podpina właściwy, natywny plik gry.
-- 🩺 **Systemowy Asystent Diagnostyczny (`xodus-heroic doctor`)**: Błyskawicznie sprawdza status runnera `Proton-XODUS-GDK`, bibliotek `xgameruntime.dll`, kodeków GStreamer oraz natywnych sterowników dźwięku XAudio2.
-- 🔊 **Automatyczna Naprawa Dźwięku i Dialogów (`xodus-heroic fix-audio`)**: Konfiguruje powiązania plików językowych audio (`.ba2` / `.fuz`), wdraża biblioteki XAudio2 / X3DAudio i włącza napisy dialogowe w plikach konfiguracyjnych.
-- 🚀 **Optymalne Zmienne Środowiskowe**: Automatycznie wstrzykuje flagi `WINEDLLOVERRIDES`, `PULSE_LATENCY_MSEC`, `DXVK_ENABLE_NVAPI` i `VKD3D_CONFIG`.
+> **A standalone bridge and library manager integrating Xbox Game Pass for PC (MSIXVC / Microsoft GDK) titles with Heroic Games Launcher on Linux.**
 
 ---
 
-## 📦 Szybki Start i Instalacja
+## ✨ Key Features
 
-### 1. Klonowanie i instalacja
+- 🔄 **Automatic Library Synchronization (`xodus-heroic sync`)**: Scans games decrypted by the XODUS engine, parses `MicrosoftGame.config` manifests, extracts TitleIds, icons, metadata, and generates ready-to-play Heroic launch configurations.
+- 🎯 **Smart Executable Resolver (`ExecutableResolver`)**: Automatically bypasses splash launchers (`*Launcher.exe`, `*Setup.exe`, `CrashReport.exe`) in favor of the real native game executable.
+- 🩺 **System Doctor Diagnostics (`xodus-heroic doctor`)**: Instantly verifies the health of your `Proton-XODUS-GDK` runner, `xgameruntime.dll` physical save engine, GStreamer plugins, and native DirectX XAudio2 libraries.
+- 🔊 **Automated Audio & Subtitle Repair (`xodus-heroic fix-audio`)**: Fixes dialogue audio, creates missing localized voice aliases (`.ba2` / `.fuz`), installs XAudio2 DLLs, and enables in-game subtitles.
+- 🚀 **Environment Optimization**: Automatically injects fine-tuned `WINEDLLOVERRIDES`, `PULSE_LATENCY_MSEC`, `DXVK_ENABLE_NVAPI`, and `VKD3D_CONFIG` settings.
+
+---
+
+## 📦 Quick Start & Installation
+
+### 1. Clone and Install
 ```bash
 git clone https://github.com/73chn1c/xodus-for-heroic.git
 cd xodus-for-heroic
 ./scripts/install.sh
 ```
 
-### 2. Konfiguracja kodeków (jednorazowo)
+### 2. Configure Audio Codecs (One-time setup)
 ```bash
 ./scripts/setup-codecs.sh
 ```
 
 ---
 
-## 🛠️ Użycie CLI
+## 🛠️ CLI Usage
 
 ```text
-Dostępne polecenia:
-  xodus-heroic sync            - Skanuje gry Game Pass i automatycznie konfiguruje je w Heroic
-  xodus-heroic doctor          - Wykonuje pełny audyt środowiska Proton GDK, kodeków i bibliotek
-  xodus-heroic fix-audio <dir> - Naprawia dźwięk, dialogi i napisy w wybranym katalogu gry
-  xodus-heroic help            - Wyświetla pomoc
+Available Commands:
+  xodus-heroic sync            - Scans Game Pass titles and configures them in Heroic
+  xodus-heroic doctor          - Runs a full diagnostic audit of Proton GDK, codecs, and libraries
+  xodus-heroic fix-audio <dir> - Repairs audio, dialogues, and subtitles for a specific game directory
+  xodus-heroic help            - Displays help information
 ```
 
-### Przykłady:
+### Examples:
 ```bash
-# 1. Zsynchronizuj wszystkie pobrane gry z Game Passa do Heroica:
+# 1. Synchronize all installed Game Pass titles to Heroic:
 xodus-heroic sync
 
-# 2. Sprawdź, czy Twoje środowisko Proton GDK jest w 100% sprawne:
+# 2. Check that your Proton GDK gaming environment is healthy:
 xodus-heroic doctor
 
-# 3. Napraw audio w Fallout 4:
+# 3. Fix audio and missing dialogues in Fallout 4:
 xodus-heroic fix-audio ~/Games/Heroic/Fallout4
 ```
 
 ---
 
-## 🏗️ Architektura Projektu
+## 🏗️ Architecture & Documentation
 
-Szczegółowy opis architektury, przepływu danych i integracji z runtime'em Microsoft GDK znajduje się w dokumencie:
-👉 [**Dokumentacja Architektury (docs/ARCHITECTURE.md)**](docs/ARCHITECTURE.md)
-
----
-
-## 🎮 Tabela Kompatybilności Gier
-
-Listę przetestowanych tytułów oraz wymaganych flag znajdziesz w:
-👉 [**Lista Kompatybilności (docs/GAME_COMPATIBILITY.md)**](docs/GAME_COMPATIBILITY.md)
+For a deep technical breakdown of the architecture, data flow, and GDK runtime integration, check out:
+- 📖 [**Architecture Guide (docs/ARCHITECTURE.md)**](docs/ARCHITECTURE.md)
+- 🎮 [**Game Compatibility Matrix (docs/GAME_COMPATIBILITY.md)**](docs/GAME_COMPATIBILITY.md)
+- 🔧 [**Troubleshooting & FAQ (docs/TROUBLESHOOTING.md)**](docs/TROUBLESHOOTING.md)
 
 ---
 
-## 📄 Licencja
+## 📄 License
 
-Projekt objęty licencją **GPL-3.0**. Zobacz plik [LICENSE](LICENSE) po szczegóły.
+This project is licensed under the **GPL-3.0 License**. See [LICENSE](LICENSE) for details.

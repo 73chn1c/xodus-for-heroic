@@ -1,26 +1,31 @@
-# Rozwiązywanie Problemów (Troubleshooting)
+# Troubleshooting & FAQ
 
-### 1. Brak dźwięku dialogów postaci (np. Fallout 4 w łazience / prologu)
-- **Przyczyna**: Brak systemowych wtyczek dekodera WMA/XWMA lub brak dowiązania plików językowych `.ba2`.
-- **Rozwiązanie**:
+<p align="center">
+  <a href="TROUBLESHOOTING.md"><b>English</b></a> •
+  <a href="TROUBLESHOOTING.pl.md"><b>Polski</b></a>
+</p>
+
+### 1. Missing NPC Dialogue Voices (e.g. Fallout 4 Bathroom / Prologue)
+- **Cause**: Missing system WMA/XWMA GStreamer plugins or unlinked localized audio archives (`.ba2`).
+- **Solution**:
   ```bash
   xodus-heroic fix-audio ~/Games/Heroic/Fallout4
   ```
 
-### 2. Gra zawiesza się przy wyjściu do pulpitu
-- **Przyczyna**: Deadlock asynchronicznego wątku Bethesdy lub niezainicjalizowany token UTF-16.
-- **Rozwiązanie**: Upewnij się, że runner korzysta z najnowszej wersji `xgameruntime.dll` (zwracającej `S_OK` w `UninitializeApiImpl`).
+### 2. Game Hangs on Exit to Desktop
+- **Cause**: Async thread deadlock or unhandled UTF-16 token request.
+- **Solution**: Ensure your Proton GDK runner uses the latest `xgameruntime.dll` (returning `S_OK` in `UninitializeApiImpl`).
 
-### 3. Heroic uruchamia menu launchera zamiast gry
-- **Przyczyna**: `MicrosoftGame.config` zawiera odwołanie do `*Launcher.exe`.
-- **Rozwiązanie**:
+### 3. Heroic Launches Splash Launcher Instead of the Game
+- **Cause**: `MicrosoftGame.config` declares a `*Launcher.exe` wrapper.
+- **Solution**:
   ```bash
   xodus-heroic sync
   ```
-  `xodus-heroic` automatycznie zidentyfikuje główny plik gry i zaktualizuje konfigurację.
+  `xodus-heroic` will automatically detect the real binary and update your Heroic config.
 
-### 4. Sprawdzenie stanu środowiska (Doctor)
-- Uruchom:
+### 4. Health Check (Doctor)
+- Run:
   ```bash
   xodus-heroic doctor
   ```

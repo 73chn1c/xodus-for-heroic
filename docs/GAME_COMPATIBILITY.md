@@ -1,17 +1,22 @@
-# Kompatybilność Gier Xbox Game Pass na Linuxie
+# Xbox Game Pass on Linux - Compatibility Matrix
 
-| Gra | Status | Runner | Dźwięk / Dialogi | Zapisy na dysku | Wymagane flagi / uwagi |
+<p align="center">
+  <a href="GAME_COMPATIBILITY.md"><b>English</b></a> •
+  <a href="GAME_COMPATIBILITY.pl.md"><b>Polski</b></a>
+</p>
+
+| Game | Status | Runner | Audio / Dialogues | Disk Save Engine | Notes & Tweaks |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Fallout 4 (Game Pass)** | 🟢 Działa w 100% | Proton-XODUS-GDK | ✅ GStreamer + Voices alias | ✅ `XGameSave` w `My Games\Fallout4 MS\Saves` | Pominięcie launchera (`Fallout4.exe`), polskie audio `.ba2` |
-| **Fallout 3 (Game Pass)** | 🟢 Działa w 100% | Proton-XODUS-GDK | ✅ Natywny DirectSound | ✅ Włączone | Czyste wyjście kodem 0 |
-| **Moving Out** | 🟢 Działa w 100% | Proton-XODUS-GDK | ✅ Unity Audio | ✅ Włączone | Wymaga domyślnego portu sieciowego UDP 3074 |
-| **Overcooked! 2** | 🟢 Działa w 100% | Proton-XODUS-GDK | ✅ Unity Audio | ✅ Włączone | Obsługa kontrolerów przez Wine / SDL |
-| **RollerCoaster Tycoon 3**| 🟢 Działa w 100% | Proton-XODUS-GDK | ✅ DirectSound | ✅ Włączone | Direct3D 9 -> Vulkan (DXVK) |
-| **Lies of P / Forza Horizon** | 🟢 Zgodne | Proton-XODUS-GDK | ✅ XAudio2 | ✅ Włączone | Obsługa `XDisplayTryEnableHdrMode` (Disabled fallback) |
+| **Fallout 4 (Game Pass)** | 🟢 100% Working | Proton-XODUS-GDK | ✅ GStreamer + Voices alias | ✅ `XGameSave` to `My Games\Fallout4 MS\Saves` | Launcher bypass (`Fallout4.exe`), `.ba2` voice alias |
+| **Fallout 3 (Game Pass)** | 🟢 100% Working | Proton-XODUS-GDK | ✅ Native DirectSound | ✅ Enabled | Clean exit code 0 |
+| **Moving Out** | 🟢 100% Working | Proton-XODUS-GDK | ✅ Unity Audio | ✅ Enabled | Default multiplayer UDP port 3074 |
+| **Overcooked! 2** | 🟢 100% Working | Proton-XODUS-GDK | ✅ Unity Audio | ✅ Enabled | Wine / SDL controller support |
+| **RollerCoaster Tycoon 3**| 🟢 100% Working | Proton-XODUS-GDK | ✅ DirectSound | ✅ Enabled | Direct3D 9 -> Vulkan (DXVK) |
+| **Lies of P / Forza Horizon** | 🟢 Compatible | Proton-XODUS-GDK | ✅ XAudio2 | ✅ Enabled | `XDisplayTryEnableHdrMode` (Graceful disabled fallback) |
 
 ---
 
-## Zalecana konfiguracja środowiska (Zautomatyzowana w `xodus-heroic`)
+## Recommended Environment Flags (Automated in `xodus-heroic`)
 
 ```bash
 export WINEDLLOVERRIDES="winegstreamer=d;xaudio2_7=n,b;x3daudio1_7=n,b;xgameruntime=n,b"
