@@ -1,0 +1,32 @@
+{
+  "name": "xodus-for-heroic",
+  "version": "1.0.0",
+  "description": "Seamless Xbox Game Pass (XODUS) integration, library synchronization, launcher automation, and Proton GDK runner bridge for Heroic Games Launcher on Linux",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "xodus-heroic": "./bin/xodus-heroic-bridge.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "sync": "node ./bin/xodus-heroic-bridge.js sync",
+    "doctor": "node ./bin/xodus-heroic-bridge.js doctor",
+    "install-system": "./scripts/install.sh"
+  },
+  "keywords": [
+    "xodus",
+    "heroic-games-launcher",
+    "xbox-game-pass",
+    "gdk",
+    "proton",
+    "wine",
+    "linux-gaming"
+  ],
+  "author": "73chn1c",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "typescript": "^5.9.3"
+  }
+}
