@@ -22,6 +22,9 @@ All titles listed below have been verified with complete startup, main menu rend
 | **Donut County** | `DonutCounty.exe` | Unity (Mono) | Direct3D 11 (DXVK) | `XUser`, `XGameSave`, `XStore` | **100% Working** |
 | **Neon Abyss** | `NeonAbyss.exe` | Unity (Mono BleedingEdge) | Direct3D 11 (DXVK) | `XUser`, `XGameSave`, `XStore` | **100% Working** |
 | **Stardew Valley** | `Stardew Valley.exe` | .NET Core 6 / MonoGame | Direct3D 11 (DXVK) | `XUser`, `Windows.Gaming.Input`, `XGameSave` | **100% Working** |
+| **DOOM + DOOM II** | `osiris2_WinStore.exe` | KEX Engine (Nightdive / id) | Direct3D 11 / OpenGL | `XUser`, `kexPlatformUserDataGDK`, `XNetworking` | **100% Working** |
+| **FINAL FANTASY I – VI** | `FINAL FANTASY.exe` | Unity (Pixel Remaster) | Direct3D 11 (DXVK) | `XUser`, `XStore`, `XAsync`, `XGameSave` | **100% Working** |
+| **A Game About Digging A Hole** | `DiggingGame.exe` | Unreal Engine 5 | Direct3D 11 / Direct3D 12 | `XNetworking`, `XUser`, `libcurl` | **100% Working** |
 | **Fallout 4** | `Fallout4.exe` | Creation Engine | Direct3D 11 (DXVK) | `XGameSave`, `XUser`, `XAudio2`, Subtitles/Voice | **100% Working** |
 
 ---
